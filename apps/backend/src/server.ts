@@ -1,13 +1,36 @@
 import app from "./app.js";
 
+import { env } from "./config/env.js";
 
-const PORT = process.env.PORT || 5000;
+import { logger } from "./config/logger.js";
 
 
-app.listen(PORT, () => {
+const server =
+    app.listen(
+        env.PORT,
+        () => {
 
-    console.log(
-        `Server running on ${PORT}`
-    );
 
-});
+            logger.info(
+                `Server running on port ${env.PORT}`
+            );
+
+
+        });
+
+
+
+process.on(
+    "SIGTERM",
+    () => {
+
+
+        logger.info(
+            "Graceful shutdown"
+        );
+
+
+        server.close();
+
+
+    });
