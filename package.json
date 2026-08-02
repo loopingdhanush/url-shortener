@@ -1,0 +1,16 @@
+{
+  "name": "url-shortener",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "test": "turbo test"
+  },
+  "packageManager": "pnpm@11.18.0",
+  "devDependencies": {
+    "turbo": "^2.5.0"
+  },
+  "type": "module"
+}
