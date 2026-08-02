@@ -10,7 +10,10 @@
   },
   "packageManager": "pnpm@11.18.0",
   "devDependencies": {
-    "turbo": "^2.5.0"
+    "prisma": "^7.9.1",
+    "tsx": "^4.23.1",
+    "turbo": "^2.5.0",
+    "typescript": "^7.0.2"
   },
   "type": "module"
 }
