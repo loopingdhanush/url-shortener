@@ -7,13 +7,14 @@ import {
     deleteUrl
 } from "./controller.js";
 import { requireAuth } from "../auth/middleware.js";
+import { asyncHandler } from "../../utils/asyncHandler.js";
 
 const router: Router = Router();
 router.use(requireAuth);
-router.post("/", createUrl);
-router.get("/", getUrls);
-router.get("/:id", getUrl);
-router.patch("/:id", updateUrl);
-router.delete("/:id", deleteUrl);
+router.post("/", asyncHandler(createUrl));
+router.get("/", asyncHandler(getUrls));
+router.get("/:id", asyncHandler(getUrl));
+router.patch("/:id", asyncHandler(updateUrl));
+router.delete("/:id", asyncHandler(deleteUrl));
 
 export default router;

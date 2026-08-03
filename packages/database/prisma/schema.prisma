@@ -101,6 +101,8 @@ model Url {
 
   updatedAt DateTime @updatedAt
 
+  deletedAt DateTime?
+
   @@index([userId])
   @@index([createdAt])
 }

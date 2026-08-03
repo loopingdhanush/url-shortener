@@ -1,5 +1,6 @@
 import type { Request, Response, NextFunction } from "express";
 import { logger } from "../config/logger.js";
+import { ApiError } from "../utils/ApiError.js";
 
 export function errorMiddleware(
     err: any,
@@ -7,15 +8,22 @@ export function errorMiddleware(
     res: Response,
     next: NextFunction
 ) {
+
     logger.error(err);
 
-    res.status(
-        err.statusCode || 500
-    )
-        .json({
+    if (err instanceof ApiError) {
+        return res.status(err.statusCode).json({
             success: false,
-            message:
-                err.message ||
-                "Internal server error"
+            code: err.code,
+            message: err.message
+
         });
+    }
+
+    return res.status(500).json({
+        success: false,
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Internal server error"
+    });
+
 }

@@ -1,7 +1,7 @@
 import { UrlRepository } from "./repository.js";
 import { generateShortCode } from "./generator.js";
 import type { CreateUrlInput } from "./types.js";
-
+import { ApiError } from "../../utils/ApiError.js";
 export class UrlService {
 
     private repository = new UrlRepository();
@@ -14,7 +14,11 @@ export class UrlService {
         if (input.customAlias) {
             const existing = await this.repository.findByAlias(input.customAlias);
             if (existing) {
-                throw new Error("Alias already exists");
+                throw new ApiError(
+                    409,
+                    "Alias already exists",
+                    "ALIAS_EXISTS"
+                );
             }
         }
 
@@ -118,7 +122,7 @@ export class UrlService {
 
 
 
-        return this.repository.delete(id, userId);
+        return this.repository.softDelete(id, userId);
     }
 
 

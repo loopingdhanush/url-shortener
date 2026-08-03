@@ -16,7 +16,9 @@ const envSchema = z.object({
         .optional(),
 
     REDIS_URL: z.string()
-        .optional()
+        .optional(),
+
+    SHORT_CODE_LENGTH: z.coerce.number().default(7),
 });
 
 

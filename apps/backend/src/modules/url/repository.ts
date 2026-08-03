@@ -13,7 +13,9 @@ export class UrlRepository {
     ) {
         return prisma.url.findUnique({
             where: {
-                shortCode
+                shortCode,
+
+                deletedAt: null
             }
         });
     }
@@ -23,7 +25,9 @@ export class UrlRepository {
     ) {
         return prisma.url.findUnique({
             where: {
-                customAlias
+                customAlias,
+
+                deletedAt: null
             }
         });
     }
@@ -33,7 +37,9 @@ export class UrlRepository {
     ) {
         return prisma.url.findMany({
             where: {
-                userId
+                userId,
+
+                deletedAt: null
             },
             orderBy: {
                 createdAt: "desc"
@@ -51,7 +57,9 @@ export class UrlRepository {
         return prisma.url.findFirst({
             where: {
                 id,
-                userId
+                userId,
+
+                deletedAt: null
             }
         });
     }
@@ -72,16 +80,27 @@ export class UrlRepository {
         });
     }
 
-    async delete(
+
+    async softDelete(
         id: string,
         userId: string
     ) {
 
-        return prisma.url.deleteMany({
+        return prisma.url.update({
+
             where: {
                 id,
                 userId
+            },
+
+            data: {
+
+                deletedAt: new Date(),
+                isActive: false
+
             }
+
         });
+
     }
 }

@@ -8,6 +8,7 @@ import healthRoute from "./routes/health.route.js";
 import authRoutes from "./modules/auth/routes.js";
 import testRoute from "./routes/test.route.js";
 import urlRoute from "./modules/url/routes.js";
+import redirectRoutes from "./modules/redirect/routes.js";
 const app: Express = express();
 
 //Middlewares
@@ -22,6 +23,7 @@ app.use("/api", healthRoute);
 app.use("/api/auth", authRoutes);
 app.use("/api/test", testRoute);
 app.use("/api/url", urlRoute);
+app.use("/", redirectRoutes);
 
 //Error Handling
 app.use(notFoundMiddleware);
