@@ -29,4 +29,4 @@ app.use("/", redirectRoutes);
 app.use(notFoundMiddleware);
 app.use(errorMiddleware);
 
-export default app;
+export default app; 
