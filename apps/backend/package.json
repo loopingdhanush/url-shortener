@@ -17,6 +17,7 @@
     "@repo/database": "workspace:*",
     "@repo/redis": "workspace:*",
     "better-auth": "^1.6.25",
+    "bullmq": "^6.0.7",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",

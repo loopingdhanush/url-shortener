@@ -2,6 +2,7 @@ import { UrlRepository } from "./repository.js";
 import { generateShortCode } from "./generator.js";
 import type { CreateUrlInput } from "./types.js";
 import { ApiError } from "../../utils/ApiError.js";
+import { cache, CacheKeys } from "@repo/redis";
 export class UrlService {
 
     private repository = new UrlRepository();
@@ -39,7 +40,6 @@ export class UrlService {
             userId
         });
     }
-
 
     async getUserUrls(
         userId: string
@@ -79,51 +79,71 @@ export class UrlService {
         userId: string,
         data: any
     ) {
-        const url =
-            await this.repository
-                .findByIdForUser(
-                    id,
-                    userId
-                );
-        if (!url) {
+        const url = await this.repository.findByIdForUser(
+            id,
+            userId
+        );
 
-            throw new Error(
-                "URL not found"
-            );
+        if (!url) {
+            throw new Error("URL not found");
         }
-        return this.repository.update(
+
+        const updatedUrl = await this.repository.update(
             id,
             userId,
             data
         );
+
+        await cache.del(
+            CacheKeys.url(
+                url.shortCode
+            )
+        );
+
+        if (url.customAlias) {
+            await cache.del(
+                CacheKeys.url(
+                    url.customAlias
+                )
+            );
+        }
+
+        return updatedUrl;
     }
 
     async deleteUrl(
         id: string,
         userId: string
     ) {
-
-
-        const url =
-            await this.repository
-                .findByIdForUser(
-                    id,
-                    userId
-                );
-
+        const url = await this.repository.findByIdForUser(
+            id,
+            userId
+        );
 
         if (!url) {
-
-            throw new Error(
-                "URL not found"
-            );
-
+            throw new Error("URL not found");
         }
 
+        const deletedUrl = await this.repository.softDelete(
+            id,
+            userId
+        );
 
+        await cache.del(
+            CacheKeys.url(
+                url.shortCode
+            )
+        );
 
-        return this.repository.softDelete(id, userId);
+        if (url.customAlias) {
+            await cache.del(
+                CacheKeys.url(
+                    url.customAlias
+                )
+            );
+        }
+
+        return deletedUrl;
     }
-
 
 }
