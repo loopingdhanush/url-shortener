@@ -1,59 +1,32 @@
-import { createClient } from "redis";
+import Redis from "ioredis";
 
-//const redisUrl = process.env.REDIS_URL;
-const redisUrl = "redis://localhost:6379";
+const redisUrl = process.env.REDIS_URL;
+
 if (!redisUrl) {
-
-    throw new Error(
-        "REDIS_URL is not defined"
-    );
-
+    throw new Error("REDIS_URL is not defined");
 }
 
 declare global {
-
     // eslint-disable-next-line no-var
-    var redis:
-        | ReturnType<typeof createClient>
-        | undefined;
-
+    var redis: Redis | undefined;
 }
 
-const client =
+export const redis =
     globalThis.redis ??
-    createClient({
-
-        url: redisUrl
-
+    new Redis(redisUrl, {
+        maxRetriesPerRequest: null,
+        enableReadyCheck: true,
+        lazyConnect: false,
     });
 
-client.on(
+redis.on("connect", () => {
+    console.log("Redis connected");
+});
 
-    "error",
+redis.on("error", (error) => {
+    console.error("Redis Error:", error);
+});
 
-    (error) => {
-
-        console.error(
-            "Redis Error:",
-            error
-        );
-
-    }
-
-);
-
-if (!client.isOpen) {
-
-    await client.connect();
-
+if (process.env.NODE_ENV !== "production") {
+    globalThis.redis = redis;
 }
-
-if (
-    process.env.NODE_ENV !== "production"
-) {
-
-    globalThis.redis = client;
-
-}
-
-export const redis = client;

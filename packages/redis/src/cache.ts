@@ -23,18 +23,24 @@ export class Cache {
         ttl?: number
     ) {
 
+        const payload =
+            JSON.stringify(value);
+
+        if (ttl) {
+
+            await redis.set(
+                key,
+                payload,
+                "EX",
+                ttl
+            );
+
+            return;
+        }
+
         await redis.set(
-
             key,
-
-            JSON.stringify(value),
-
-            ttl
-                ? {
-                    EX: ttl
-                }
-                : undefined
-
+            payload
         );
 
     }
