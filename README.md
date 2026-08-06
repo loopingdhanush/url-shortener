@@ -6,7 +6,7 @@ The system features ultra-fast redirection leveraging **Redis caching**, asynchr
 
 ---
 
-## 🏗️ Monorepo Architecture
+## Monorepo Architecture
 
 ```
 url-shortener/
@@ -25,7 +25,7 @@ url-shortener/
 
 ---
 
-## 🚀 Key Features
+## Key Features
 
 * **Ultra-Fast Redirection**: `GET /:slug` redirects requests with minimal latency using Redis cache lookup.
 * **Asynchronous Analytics Pipeline**: High-throughput click recording using **BullMQ** background queues and dedicated worker threads (concurrency 25) to prevent HTTP response blockages.
@@ -37,7 +37,7 @@ url-shortener/
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Core Technologies
 * **Language**: TypeScript (`ESNext`)
@@ -63,7 +63,7 @@ url-shortener/
 
 ---
 
-## 📊 Database Schema Summary
+## Database Schema Summary
 
 The database uses PostgreSQL managed via Prisma (`packages/database/prisma/schema.prisma`):
 
@@ -135,7 +135,7 @@ The database uses PostgreSQL managed via Prisma (`packages/database/prisma/schem
 
 ---
 
-## 🏃 Running the Application
+## Running the Application
 
 ### Concurrent Development Mode (Turborepo)
 To run all apps and packages in development mode:
@@ -164,7 +164,7 @@ pnpm dev
 
 ---
 
-## ⚡ API Endpoints Reference
+## API Endpoints Reference
 
 ### Public / Redirection Endpoints
 | Method | Endpoint | Description |
@@ -186,7 +186,7 @@ Handled automatically by **Better Auth** (`/api/auth/sign-in`, `/api/auth/sign-u
 
 ---
 
-## 📜 Available Workspace Scripts
+## Available Workspace Scripts
 
 * `pnpm dev`: Runs development servers across all packages/apps concurrently.
 * `pnpm build`: Builds production packages and applications via Turborepo.
