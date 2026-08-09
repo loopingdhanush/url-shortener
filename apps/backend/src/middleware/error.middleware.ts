@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 import { logger } from "../config/logger.js";
 import { ApiError } from "../utils/ApiError.js";
 
@@ -10,6 +11,15 @@ export function errorMiddleware(
 ) {
 
     logger.error(err);
+
+    if (err instanceof ZodError) {
+        return res.status(400).json({
+            success: false,
+            code: "VALIDATION_ERROR",
+            message: "Validation error",
+            errors: err.errors
+        });
+    }
 
     if (err instanceof ApiError) {
         return res.status(err.statusCode).json({

@@ -3,9 +3,16 @@ import { generateShortCode } from "./generator.js";
 import type { CreateUrlInput } from "./types.js";
 import { ApiError } from "../../utils/ApiError.js";
 import { cache, CacheKeys } from "@repo/redis";
+import type { IUrlRepository } from "./interfaces/url-repository.interface.js";
+
+
 export class UrlService {
 
-    private repository = new UrlRepository();
+    constructor(
+        private readonly repository:
+            IUrlRepository
+
+    ) { }
 
     async createUrl(
         userId: string,

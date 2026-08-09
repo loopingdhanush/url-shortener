@@ -1,6 +1,10 @@
 import { prisma } from "@repo/database";
 
-export class UrlRepository {
+import type { IUrlRepository }
+    from "./interfaces/url-repository.interface.js";
+
+export class UrlRepository
+    implements IUrlRepository {
 
     async create(data: any) {
         return prisma.url.create({

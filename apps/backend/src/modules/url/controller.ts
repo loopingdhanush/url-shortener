@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
 import { createUrlSchema } from "./validator.js";
-import { UrlService } from "./service.js";
-const service = new UrlService();
+import { urlService } from "../../container/url.js";
+const service = urlService;
 
 export async function createUrl(
     req: Request,
@@ -15,6 +15,7 @@ export async function createUrl(
         success: true,
         data: {
             id: url.id,
+            shortCode: url.shortCode,
             shortUrl: `http://localhost:5000/${url.shortCode}`,
             originalUrl: url.originalUrl
         }
@@ -78,13 +79,14 @@ export async function deleteUrl(
     req: Request,
     res: Response
 ) {
+
     await service.deleteUrl(
         req.params.id as string,
         req.user!.id
     );
 
-    res.json({
-        success: true,
-        message: "URL deleted"
-    });
+    return res
+        .status(204)
+        .send();
+
 }
