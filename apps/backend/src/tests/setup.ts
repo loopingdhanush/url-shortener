@@ -21,5 +21,5 @@ beforeEach(async () => {
     process.env.NODE_ENV = "test";
 
     await resetDatabase();
-
+    await clearRedis();
 });
