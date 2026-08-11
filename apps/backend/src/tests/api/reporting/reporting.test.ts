@@ -60,4 +60,4 @@ describe("GET /api/reporting/:urlId", () => {
 
         expect(response.body.data.summary.totalClicks).toBe(0);
     });
-});
+});  

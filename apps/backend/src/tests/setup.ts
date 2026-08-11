@@ -5,6 +5,7 @@ import {
     afterAll
 } from "vitest";
 import { resetDatabase } from "./helpers/database.js";
+import { clearRedis } from "./helpers/redis.js";
 
 beforeAll(async () => {
 
