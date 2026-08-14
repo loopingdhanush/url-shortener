@@ -23,7 +23,6 @@ export function rateLimit(
     ) {
 
         try {
-
             const identifier =
                 req.user?.id ??
                 req.ip ??
@@ -34,11 +33,8 @@ export function rateLimit(
 
             const result =
                 await checkRateLimit({
-
                     ...options,
-
                     key,
-
                 });
 
             res.setHeader(
@@ -59,31 +55,18 @@ export function rateLimit(
                 );
 
                 return res.status(429).json({
-
                     success: false,
-
                     error: {
-                        code:
-                            "RATE_LIMIT_EXCEEDED",
-
-                        message:
-                            "Too many requests",
-
-                        retryAfter:
-                            result.retryAfter,
+                        code: "RATE_LIMIT_EXCEEDED",
+                        message: "Too many requests",
+                        retryAfter: result.retryAfter,
                     },
-
                 });
-
             }
-
             next();
 
         } catch (error) {
-
             next(error);
-
         }
-
     };
 }
