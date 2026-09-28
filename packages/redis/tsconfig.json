@@ -4,7 +4,11 @@
     "module": "ESNext",
     "moduleResolution": "Bundler",
     "target": "ES2023",
-    "strict": true
+    "strict": true,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "."
   },
   "include": [
     "src"

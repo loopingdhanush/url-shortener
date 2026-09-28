@@ -4,3 +4,5 @@ dist
 .vite
 coverage
 .DS_Store
+# Prisma generated client
+packages/database/src/generated/prisma/

@@ -42,9 +42,13 @@ export class UrlService {
         return this.repository.create({
             originalUrl: input.originalUrl,
             shortCode,
-            customAlias: input.customAlias,
-            expiresAt: input.expiresAt,
-            userId
+            customAlias: input.customAlias ?? null,
+            expiresAt: input.expiresAt ?? null,
+            user: {
+                connect: {
+                    id: userId
+                }
+            }
         });
     }
 

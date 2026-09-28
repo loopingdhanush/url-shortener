@@ -2,14 +2,19 @@
   "name": "@repo/redis",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "private": true,
   "type": "module",
+  "main": "./dist/src/index.js",
+  "types": "./dist/src/index.d.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js"
+    }
   },
   "scripts": {
-    "dev": "tsx watch src/index.ts"
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",

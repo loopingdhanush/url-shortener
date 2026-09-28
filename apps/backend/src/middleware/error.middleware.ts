@@ -17,7 +17,7 @@ export function errorMiddleware(
             success: false,
             code: "VALIDATION_ERROR",
             message: "Validation error",
-            errors: err.errors
+            errors: err.issues
         });
     }
 

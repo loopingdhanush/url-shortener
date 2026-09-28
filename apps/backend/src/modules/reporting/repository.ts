@@ -264,10 +264,7 @@ export class ReportingRepository {
 
         return rows.map((row: { date: Date; clicks: bigint }) => ({
 
-            date:
-                row.date
-                    .toISOString()
-                    .split("T")[0],
+            date: row.date.toISOString().slice(0, 10),
 
             clicks:
                 Number(row.clicks)
