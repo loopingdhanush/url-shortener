@@ -15,6 +15,37 @@ jobs:
   build-and-test:
     runs-on: ubuntu-latest
 
+    services:
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: url_shortener_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d url_shortener_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      REDIS_URL: redis://localhost:6379
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/url_shortener_test
+      BETTER_AUTH_SECRET: test-secret-for-ci-only
+      BETTER_AUTH_URL: http://localhost:5000
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -44,6 +75,9 @@ jobs:
 
       - name: Build backend
         run: pnpm --filter @repo/backend build
+
+      - name: Run database migrations
+        run: pnpm --filter @repo/database migrate:deploy
 
       - name: Run tests
         run: pnpm --filter @repo/backend test
